@@ -12,11 +12,17 @@ import {
   getTime
 } from "./date_utils";
 
-function generateMonthYears(minDate, maxDate) {
+function generateMonthYears(minDate, maxDate, ignoreMinMaxforMonth, ignoreMinMaxforYear) {
   const list = [];
 
-  let currDate = getStartOfMonth(minDate);
-  const lastDate = getStartOfMonth(maxDate);
+  if(!ignoreMinMaxforMonth && !ignoreMinMaxforYear){
+    let currDate = getStartOfMonth(minDate);
+    const lastDate = getStartOfMonth(maxDate);
+  } else {
+    let currDate = getStartOfMonth(null);
+    const lastDate = getStartOfMonth(null);
+  }
+  
 
   while (!isAfter(currDate, lastDate)) {
     list.push(newDate(currDate));
@@ -41,7 +47,7 @@ export default class MonthYearDropdownOptions extends React.Component {
     super(props);
 
     this.state = {
-      monthYearsList: generateMonthYears(this.props.minDate, this.props.maxDate)
+      monthYearsList: generateMonthYears(this.props.minDate, this.props.maxDate, this.props.ignoreMinMaxforMonth,this.props.ignoreMinMaxforYear)
     };
   }
 
